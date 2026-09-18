@@ -9,8 +9,8 @@ async fn main() {
     let app = Router::new()
     .route("/", get(root));
     
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.expect("Failed to bind to address");
+    axum::serve(listener, app).await.expect("Failed to serve application");
 }
 
 async fn root () -> (StatusCode, String) {
