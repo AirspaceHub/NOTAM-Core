@@ -13,8 +13,13 @@
   # https://devenv.sh/packages/
   packages = [ pkgs.git ];
 
-  # https://devenv.sh/languages/
-  # languages.rust.enable = true;
+  languages = {
+    # devenv.sh/languages/rust/
+    rust = {
+      enable = true;
+      channel = "stable";
+    };
+  };
 
   # https://devenv.sh/processes/
   # processes.dev.exec = "${lib.getExe pkgs.watchexec} -n -- ls -la";
