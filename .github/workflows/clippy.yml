@@ -1,0 +1,37 @@
+name: Clippy
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main   # optional, see notes; remove if you don't want it
+
+permissions:
+  contents: read
+
+# Cancel an older run on the same PR when new commits are pushed
+concurrency:
+  group: clippy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  clippy:
+    name: cargo clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Cache cargo registry and build output
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
