@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Rust crates (Cargo.toml / Cargo.lock)
+  - package-ecosystem: "cargo"
+    directory: "/"            # location of Cargo.toml (workspace root if using a workspace)
+    target-branch: "develop"  # open PRs against develop rather than the default branch
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "rust"
+    groups:
+      # Bundle minor/patch bumps into one PR to cut down on noise
+      cargo-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Keep the actions used in your workflows up to date too
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "ci"
