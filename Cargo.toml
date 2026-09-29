@@ -8,7 +8,7 @@ license = "AGPL-3.0-only"
 axum = "0.8.9"
 color-eyre = "0.6.5"
 serde = "1.0.229"
-toasty = "0.10.0"
+toasty = { version = "0.10.0", features = ["sqlite"] }
 tokio = { version = "1.53.1", features = ["full"] }
 
 [lints.clippy]

@@ -1,3 +1,13 @@
+mod state;
+mod database;
+
+use state::AppState;
+use database::db;
+use std::{
+    sync::Arc,
+    env,
+};
+
 use axum::{
     routing::get,
     http::StatusCode,
@@ -6,6 +16,14 @@ use axum::{
 
 #[tokio::main]
 async fn main() {
+    let db_url: String = env::var("TOASTY_CONNECTION_URL").unwrap_or_else(|_| "sqlite::memory:".to_string());
+
+    let db = db::connect(&db_url).await.expect("Failed to connect to database");
+
+    let state = AppState {
+        db: Arc::new(db),
+    };
+
     let app = Router::new()
     .route("/", get(root));
     
